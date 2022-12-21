@@ -12,8 +12,7 @@ func TestFileExists(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		filePath := homeDir + "Desktop/output.txt"
-		// got := path.Base(hd)
+		filePath := homeDir + "/Desktop/output.txt"
 		check, err := os.Stat(filePath)
 		if os.IsNotExist(err) {
 			fmt.Print("file doesn't exist")
