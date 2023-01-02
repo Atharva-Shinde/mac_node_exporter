@@ -2,16 +2,36 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"main.go/extractor"
 )
 
 func main() {
 
-	createFile()
-
+	// createFile()
 	//TODO: exporting metrics to prometheus
+
+	cpuUsage := prometheus.NewGaugeFunc(prometheus.GaugeOpts{
+		Namespace:   "",
+		Subsystem:   "",
+		Name:        "cpu_usage",
+		Help:        "CPU percent",
+		ConstLabels: map[string]string{},
+	}, func() float64 {
+		return extractor.Extractor()
+
+	})
+	prometheus.MustRegister(cpuUsage)
+
+	http.Handle("/", promhttp.Handler())
+	http.ListenAndServe(":8080", nil)
+
 }
 
 func createFile() {
@@ -31,6 +51,8 @@ func createFile() {
 
 	populater(usr, filePath, absPath)
 }
+
+// do we really need this?
 
 // populates output.txt file with metrics from top utility
 // this function extracts pid,cpu metrics but it can track other metrics as well, to see options available try `top --help`
