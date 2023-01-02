@@ -15,8 +15,8 @@ func Extractor() float64 {
 	if err != nil {
 		fmt.Print(err)
 	}
-	finaloutput := string(rawoutput)
-	finaloutput = strings.TrimSpace(finaloutput)
+	stroutput := string(rawoutput)
+	finaloutput := strings.TrimSpace(stroutput)
 
 	result, err := strconv.ParseFloat(finaloutput, 64)
 	if err != nil {

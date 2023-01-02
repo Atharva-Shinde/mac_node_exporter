@@ -12,6 +12,10 @@ import (
 	"main.go/extractor"
 )
 
+func init() {
+	fmt.Print("listening to server...")
+}
+
 func main() {
 
 	// createFile()
@@ -20,8 +24,8 @@ func main() {
 	cpuUsage := prometheus.NewGaugeFunc(prometheus.GaugeOpts{
 		Namespace:   "",
 		Subsystem:   "",
-		Name:        "cpu_usage",
-		Help:        "CPU percent",
+		Name:        "cpu_percent",
+		Help:        "CPU percentage",
 		ConstLabels: map[string]string{},
 	}, func() float64 {
 		return extractor.Extractor()
